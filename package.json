@@ -1,11 +1,11 @@
 {
-  "name": "pi-1819v-li51n-g22",
+  "name": "pi-1920v-li51n-g14",
   "version": "1.0.0",
   "description": "",
-  "main": "ciborg-server.js",
+  "main": "cota-server.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha",
-    "start": "clear && nodemon ciborg-server.js"
+    "start": "clear && nodemon cota-server.js"
   },
   "author": "",
   "license": "ISC",

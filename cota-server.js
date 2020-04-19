@@ -17,9 +17,9 @@ var path = require('path')
 
 //dependency injection
 
-const lastfm_data = require('./dataAccess/cota-database-data.js').JSONData;
+const movies_database_data = require('./dataAccess/cota-database-data.js').JSONData;
 const db_connection = require('./dataAccess/cota-db.js').DBAaccess;
-const services = require('./cota-services.js')(lastfm_data, db_connection);
+const services = require('./cota-services.js')(movies_database_data, db_connection);
 const expressSession = require('express-session');
 
 var express = require('express')
@@ -34,9 +34,7 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(expressSession({secret: 'keyboard cat', resave: false, saveUninitialized: true }))
 app.use('/', express.static(path.join(__dirname, "dist")))
-app.use(auth_routes.global)
 app.use('/', routes.specific)
-app.use('/', auth_routes.specific)
 
 
 app.listen(PORT, HOST, onListen)
