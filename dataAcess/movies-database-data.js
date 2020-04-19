@@ -9,7 +9,7 @@ Request = Request.defaults(
     }
 )
 /**
-    * @module lastfm-data- This module contains the connection to the last.fm API Documentation
+    * @module movies-databse-data - This module contains the connection to the last.fm API Documentation
     * @var {JSONData}  - The Object that contians the methods to make http requests.
    */
 module.exports.JSONData = {

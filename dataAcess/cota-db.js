@@ -9,7 +9,7 @@ Request = Request.defaults(
     }
 )
 /**
-     * @module yama-db- This module contains the connection to the ElasticSearch Database
+     * @module cota-db - This module contains the connection to the ElasticSearch Database
      * @var {DBAaccess}  - The Object that contians the methods to make http requests to the DataBase.
     */
 
