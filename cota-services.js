@@ -69,7 +69,7 @@ module.exports.getGroups = function (params, callback) {
                 name: aux.name,
                 description: aux.description,
                 id: aux.id,
-                games:aux.games
+                TV_Shows:aux.TV_Shows
             }
             toRet[key].push(aux)
         }
@@ -77,7 +77,7 @@ module.exports.getGroups = function (params, callback) {
     });
 }
 
-module.exports.getGroupsByID = function (ids, callback) {
+module.exports.getGroupByID = function (ids, callback) {
     //gets the group by id
     db_connection.getGroupsByID(ids, function (statusCode, err, body) {
         if (statusCode === 404)
@@ -86,11 +86,12 @@ module.exports.getGroupsByID = function (ids, callback) {
         var key = body._source.name + ' group';
         toRet[key] = [];
         let aux = body._source;
+        console.log(body._source)
         aux = {
             name: aux.name,
             description: aux.description,
             id: aux.id,
-            games:aux.games
+            TV_Shows:aux.TV_Shows
             
         }
         toRet[key].push(aux)
@@ -114,7 +115,7 @@ module.exports.postGroup = function (params, callback) {
             id: nextID,
             name: params.name,
             description: params.description,
-            games:[]
+            TV_Shows:[]
         }
         return db_connection.createGroup(nextID, toRet, callback);
     });
@@ -134,37 +135,37 @@ module.exports.putGroups = function (ids, params, callback) {
     });
 }
 
-module.exports.postGameInGroup = function (ids, params, callback) {
+module.exports.postTvShowsInGroup = function (ids, params, callback) {
     //gets the track
-    movies_database_data.getGame(params, function (statusCode, err, t_body) {
+    movies_database_data.getTvShow(params, function (statusCode, err, t_body) {
         if (t_body.error != undefined)
-            return callback({ "statusCode": 404, "body": "Game not found" });
-
+            return callback({ "statusCode": 404, "body": "TV Show not found" });
+            //console.log(t_body)
         //gets the group by id
         db_connection.getGroupsByID(ids, function (statusCode, err, g_body) {
             if (statusCode === 404)
                 return callback({ "statusCode": 404, "body": "No Group with this id" });
-
             //gets the biggest index
-            var index = g_body._source.games.findIndex(x => (x.id > g_body._source.games.length));
+            var index = g_body._source.TV_Shows.findIndex(x => (x.id > g_body._source.TV_Shows.length));
+            
             if (index == -1) {
-                nextID = g_body._source.games.length + 1;
+                nextID = g_body._source.TV_Shows.length + 1;
             } else {
-                var nextID = (g_body._source.games[index].id);
+                var nextID = (g_body._source.TV_Shows[index].id);
                 nextID++;
             }
             var toAdd = {
-                Game: t_body.games[0].name,
-                Description: t_body.games[0].description,
-                Time_Max:t_body.games[0].max_playtime,
+                TV_Show: t_body.results[0].name,
+                Description: t_body.results[0].description,
+                //Time_Max:t_body.results[0].max_playtime,
                 id: nextID
             }
     
-            var index = g_body._source.games.findIndex(x => (x.Game == toAdd.Game));
+            var index = g_body._source.TV_Shows.findIndex(x => (x.TV_Show == toAdd.TV_Show));
             if (index != -1)
-                return callback({ "statusCode": 400, "body": "Game already in Group!" });
+                return callback({ "statusCode": 400, "body": "Tv show already in Group!" });
             //push if absent!
-            g_body._source.games.push(toAdd);
+            g_body._source.TV_Shows.push(toAdd);
             return db_connection.updateGroups(ids, g_body._source, callback);
         });
     });
