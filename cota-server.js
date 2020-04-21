@@ -1,47 +1,51 @@
 'use strict'
 /**
-     * @module cota-server - This module is the entry poit of the YAMA APP it takes the requests
+     * @module foca-server - This module is the entry poit of the YAMA APP it takes the requests
      *  and sends responses to the client it uses the Router execute a specific command
 */
+
 console.log("hullo");
-
-
-class Routers {
-  constructor() {
-    this.global = express.Router()
-    this.specific = express.Router()
-  }
-}
-
-var path = require('path')
-
-//dependency injection
-
-const movies_database_data = require('./dataAccess/cota-database-data.js').JSONData;
+const http = require('http');
+const cota_data = require('./dataAccess/movies-database-data.js').JSONData;
 const db_connection = require('./dataAccess/cota-db.js').DBAaccess;
-const services = require('./cota-services.js')(movies_database_data, db_connection);
-const expressSession = require('express-session');
+const services = require('./cota-services.js')(cota_data,db_connection);
+const Router = require('./api/cota-web-api.js')(services);
 
-var express = require('express')
+http://localhost:3000
+Router.addRoutes();
 
-var app = express()
-const routes = require('./api/cota-web-api.js')(services, new Routers());///index.js
+const server = http.createServer((request, response) => {
+  var params = setParams(request.url);
+  var url = request.url.split('?');
+  var cmd = Router.checkRoutes(request.method, url[0]);
+  var ids = url[0].match(/\d+/g);      //get all ids
+  //console.log(cmd);a
+  //if (cmd != null) {
+    Router.execute(ids, cmd, params, function (obj) {
+      response.statusCode = obj.statusCode;
+      response.setHeader('Content-Type', 'application/json');
+      response.write(JSON.stringify(obj.body));
+      response.end();
+    });
 
-const PORT = 3000;
-const HOST = "localhost"
+  /*} else {
+    response.statusCode = 404;
+    response.setHeader('Content-Type', 'application/json');
+    response.write(JSON.stringify("404 PAGE NOT FOUND"));
+    response.end();
+  }*/
+}).listen(3000);
 
-app.use(cookieParser())
-app.use(express.json())
-app.use(expressSession({secret: 'keyboard cat', resave: false, saveUninitialized: true }))
-app.use('/', express.static(path.join(__dirname, "dist")))
-app.use('/', routes.specific)
-
-
-app.listen(PORT, HOST, onListen)
-
-function onListen(err) {
-  if (err) {
-    console.log(err)
+var setParams = function (url) {
+  var params = [];
+  var arr = url.split('?');
+  if (arr[1] === undefined) return;
+  var arr = arr[1].split('&');
+  for (var value of arr) {
+    value = value.split('=');
+     //to replace the &20 with 'SPACE'
+    params[(value[0])] = value[1].replace(/%20/g, " "); 
   }
-  console.log(`Server listening on port ${PORT}. Entry point is http://${HOST}:${PORT}/`)
+  var toRet = Object.assign({}, params);
+  return toRet;
 }
