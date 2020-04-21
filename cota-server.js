@@ -20,7 +20,7 @@ const server = http.createServer((request, response) => {
   var cmd = Router.checkRoutes(request.method, url[0]);
   var ids = url[0].match(/\d+/g);      //get all ids
   //console.log(cmd);a
-  //if (cmd != null) {
+  if (cmd != null) {
     Router.execute(ids, cmd, params, function (obj) {
       response.statusCode = obj.statusCode;
       response.setHeader('Content-Type', 'application/json');
@@ -28,12 +28,12 @@ const server = http.createServer((request, response) => {
       response.end();
     });
 
-  /*} else {
+  } else {
     response.statusCode = 404;
     response.setHeader('Content-Type', 'application/json');
     response.write(JSON.stringify("404 PAGE NOT FOUND"));
     response.end();
-  }*/
+  }
 }).listen(3000);
 
 var setParams = function (url) {
