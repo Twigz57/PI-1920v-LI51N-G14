@@ -13,10 +13,10 @@ Request = Request.defaults(
     * @var {JSONData}  - The Object that contians the methods to make http requests.
    */
 module.exports.JSONData = {
-    baseURL: "https://api.themoviedb.org/3/tv/",
+    baseURL: "https://api.themoviedb.org/3/",
     getTvShows: function (params, callback) {
         const options = {
-            url: (this.baseURL + "popular?api_key=940c7ca5b74c11a1794d676f48f8494e&language=en-US&page=1"),
+            url: (this.baseURL + "tv/popular?api_key=940c7ca5b74c11a1794d676f48f8494e&language=en-US&page=1"),
             method: 'GET'
         };
         Request(options, (err, res, body) => {
@@ -26,7 +26,7 @@ module.exports.JSONData = {
     },
     getTvShow: function (params, callback) {
         const options = {
-            url: (this.baseURL + `search/tv?api_key=940c7ca5b74c11a1794d676f48f8494e&language=en-US&page=1&query=${params.name}`),
+            url: (this.baseURL + `search/tv?api_key=940c7ca5b74c11a1794d676f48f8494e&language=en-US&page=1&query=${params.query}`),
             method: 'GET',
         };
         Request(options, (err, res, body) => {

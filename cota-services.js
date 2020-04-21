@@ -33,7 +33,8 @@ module.exports.getTvShow = function (params, callback) {
     movies_database_data.getTvShow(params, function (statusCode, err, body) {
         if (statusCode === 400)
             return callback({ "statusCode": 400, "body": "No TV Show with this name" });
-        var jsonObj = body.results[0];
+        var jsonObj = body.results;
+        console.log(jsonObj);
         var toRet = {}
         var key = 'TV Show'
         toRet[key] = [];
