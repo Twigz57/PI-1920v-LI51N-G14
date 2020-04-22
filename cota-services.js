@@ -158,6 +158,8 @@ module.exports.postTvShowsInGroup = function (ids, params, callback) {
                 TV_Show: t_body.results[0].name,
                 Description: t_body.results[0].description,
                 //Time_Max:t_body.results[0].max_playtime,
+                score: t_body.results[0].vote_average,
+                vote_cunt: t_body.results[0].vote_count,
                 id: nextID
             }
     
@@ -172,46 +174,46 @@ module.exports.postTvShowsInGroup = function (ids, params, callback) {
 }
 
 
-module.exports.deleteGameByID = function (ids, callback) {
+module.exports.deleteTvShowsByID = function (ids, callback) {
     
     db_connection.getGroupsByID(ids[0], function (statusCode, err, body) {
         if (statusCode === 404)
             return callback({ "statusCode": 404, "body": "No Group with this id" });
 
-        var obj = body._source.games.find(function (element) {
+        var obj = body._source.TV_Shows.find(function (element) {
             return (element.id == ids[1]);
         });
         if (obj === undefined)
-            return callback({ "statusCode": 404, "body": "No Game with this id" });
+            return callback({ "statusCode": 404, "body": "No Tv Show with this id" });
 
-         body._source.games = body._source.games.filter(x => x.id != ids[1]);
+         body._source.TV_Shows = body._source.TV_Shows.filter(x => x.id != ids[1]);
 
         return db_connection.updateGroups(body._id, body._source, callback);
     });
 }
-module.exports.getGroupsGames = function(ids, params,callback){
+module.exports.getGroupsTvShows = function(ids, params,callback){
     
     db_connection.getGroupsByID(ids[0], function (statusCode, err, body) {
         if (statusCode === 404)
             return callback({ "statusCode": 404, "body": "No Group with this id" });
 
-        var obj = body._source.games.find(function (element) {
+        var obj = body._source.TV_Shows.find(function (element) {
             return (element.id == ids[1]);
         });
         var toRet = {}
-        var key = "Games filter"
-        var games = body._source.games
+        var key = "Tv Shows filter"
+        var TV_Shows = body._source.TV_Shows
+        console.log(body._source.TV_Shows)
         var min = params.min
         var max = params.max
         toRet[key] = [];
         let aux = body._source;
-        for(var i of games){
-           if(i.Time_Max >= min && i.Time_Max <= max){
+        for(var i of TV_Shows){
+           if(i.score >= min && i.score <= max){
                 aux = {
-                    Name: i.Game,
-                    Description: i.Description,
-                    Id: i.id,
-                    Time_Max : i.Time_Max
+                    Name: i.TV_Show,
+                    Score: i.score,
+                    Id: i.id
                 }
             toRet[key].push(aux)
             }
