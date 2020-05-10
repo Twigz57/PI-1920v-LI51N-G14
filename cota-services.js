@@ -43,7 +43,7 @@ module.exports.getTvShow = async function (params) {
       .getTvShow(params)
       .then(({ statusCode: statusCode, body: body }) => {
         if (statusCode === 400)
-          return { statusCode: 400, body: "No Game with this name" };
+          return { statusCode: 400, body: "No TvShow(s) with this name" };
         var jsonObj = body.results;
         console.log(jsonObj);
         var toRet = {};
@@ -188,7 +188,7 @@ module.exports.postTvShowsInGroup = async function (ids, params) {
       .getTvShow(params)
       .then(async function ({ statusCode: statusCode, body: t_body }) {
         if (t_body.error != undefined)
-          return reject({ statusCode: 404, body: "game not found" });
+          return reject({ statusCode: 404, body: "TvShow(s) not found" });
 
         var {
           statusCode: statusCode,
@@ -211,14 +211,15 @@ module.exports.postTvShowsInGroup = async function (ids, params) {
           TV_Show: t_body.results[0].name,
           Description: t_body.results[0].description,
           //Time_Max:t_body.results[0].max_playtime,
-          id: nextID,
+          score: t_body.results[0].vote_average,
+          vote_cunt: t_body.results[0].vote_count,
         };
 
         var index = g_body._source.TV_Shows.findIndex(
           (x) => x.TV_Show == toAdd.TV_Show
         );
         if (index != -1)
-          return reject({ statusCode: 400, body: "Game already in Group!" });
+          return reject({ statusCode: 400, body: "TvShow(s) already in Group!" });
 
         g_body._source.TV_Shows.push(toAdd);
 
@@ -240,12 +241,12 @@ module.exports.deleteTvShowsByID = async function (pid, tid) {
         if (statusCode === 404)
           return reject({ statusCode: 404, body: "No group with this id" });
 
-        var obj = body._source.games.find(function (element) {
+        var obj = body._source.TV_Shows.find(function (element) {
           return element.id == ids[1];
         });
         if (obj === undefined)
-          return reject({ statusCode: 404, body: "No game with this id" });
-        body._source.games = body._source.games.filter((x) => x.id != ids[1]);
+          return reject({ "statusCode": 404, "body": "No Tv Show with this id" });
+        body._source.TV_Shows = body._source.TV_Shows.filter(x => x.id != ids[1]);
 
         var db_output = await db_connection.updateGroups(
           body._id,
@@ -267,25 +268,24 @@ module.exports.getGroupsTvShows = async function (ids, params) {
       .getGroupsByID(ids[0])
       .then(({ statusCode: statusCode, body: body }) => {
         if (statusCode === 404)
-          return callback({ statusCode: 404, body: "No Group with this id" });
+          return reject({ statusCode: 404, body: "No Group with this id" });
 
-        /* var obj = body._source.games.find(function (element) {
-                return (element.id == ids[1]);
-            });*/
+        /* var obj = body._source.TV_Shows.find(function (element) {
+            return (element.id == ids[1]);
+        });*/
         var toRet = {};
-        var key = "Games filter";
-        var games = body._source.games;
-        var min = params.min;
-        var max = params.max;
+        var key = "Tv Shows filter"
+        var TV_Shows = body._source.TV_Shows
+        var min = params.min ; 
+        var max = params.max ; 
         toRet[key] = [];
         let aux = body._source;
-        for (var i of games) {
-          if (i.Time_Max >= min && i.Time_Max <= max) {
+        for (var i of TV_Shows) {
+          if (i.score >= min && i.score <= max) {
             aux = {
-              Name: i.Game,
-              Description: i.Description,
-              Id: i.id,
-              Time_Max: i.Time_Max,
+              Name: i.TV_Show,
+              Score: i.score,
+              Id: i.id
             };
             toRet[key].push(aux);
           }

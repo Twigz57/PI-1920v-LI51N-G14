@@ -79,7 +79,7 @@ module.exports = function (serv, router) {
             });
     }
     async function postTvShowsInGroup(req, res) {
-        await services.postTvShowsInGroup(req.query)
+        await services.postTvShowsInGroup(req.params.gid, req.query)
             .then((output) => {
                 res.send(output);
             })
@@ -100,7 +100,7 @@ module.exports = function (serv, router) {
             });
     }
     async function getGroupsTvShows(req, res) {
-        await services.getGroupsTvShows(req.params.gid)
+        await services.getGroupsTvShows(req.params.gid, req.query)
             .then((output) => {
                 res.send(output);
             })
