@@ -1,13 +1,6 @@
 'use strict'
-var Request = require("request");
-Request = Request.defaults(
-    {
-        headers: {
-            'Accept': 'application/json',
-            "Content-Type": "application/json"
-        }
-    }
-)
+const fetch = require('node-fetch')
+var URL = require('url').URL;
 /**
      * @module cota-db - This module contains the connection to the ElasticSearch Database
      * @var {DBAaccess}  - The Object that contians the methods to make http requests to the DataBase.
@@ -15,49 +8,65 @@ Request = Request.defaults(
 
 module.exports.DBAaccess = {
     baseURL: "http://localhost:9200/cota",
-    createGroup: function (id, body, callback) {
+    createGroup: async function (id, body, callback) {
         body = JSON.stringify(body);
         const options = {
-            url: (this.baseURL + `/groups/${id}`),
             method: 'POST',
-            body: body
+            body: body,
+            headers: { 'Content-Type': 'application/json' }
         };
-        Request(options, (err, res, body) => {
-            return callback({ "statusCode": res.statusCode, "body": JSON.parse(res.body) });
-        });
+        var url = new URL(this.baseURL+`/groups/${id}`);
+        
+        return fetch(url,options)
+        .then(requestAux)
 
     },
-    getAllGroups: function (callback) {
+
+    getAllGroups: async function (callback) {
         const options = {
-            url: (this.baseURL + '/groups/_search'),
             method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
         };
-        Request(options, (err, res, body) => {
-            return callback(res.statusCode, err, JSON.parse(body))
-        });
+
+        var url = new URL(this.baseURL+'/groups/_search');
+        // Return new promise
+        return fetch(url,options)
+        .then(requestAux)
 
     },
+
     getGroupsByID: function (id, callback) {
-        const options = {
-            url: (this.baseURL + `/groups/${id}`),
+         const options = {
             method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
         };
-        Request(options, (err, res, body) => {
-            return callback(res.statusCode, err, JSON.parse(body))
-        });
+        var url = new URL(this.baseURL+`/groups/${id}`);
 
+        // Return new promise
+        return fetch(url,options)
+        .then(requestAux)
     },
     updateGroups: function (id, body, callback) {
         body = JSON.stringify(body);
         const options = {
-            url: (this.baseURL + `/groups/${id}`),
             method: 'PUT',
-            body: body
+            body: body,
+            headers: { 'Content-Type': 'application/json' }
         };
-        Request(options, (err, res, body) => {
-            return callback({ "statusCode": res.statusCode, "body": JSON.parse(res.body) });
-        });
+        
+        var url = new URL(this.baseURL+`/groups/${id}`);
+        // Return new promise
+        return fetch(url,options)
+        .then(requestAux)
 
     }
+    
+}
+
+async function requestAux(res) {
+    let jsonObj = await res.json();
+        return new Promise(function (resolve, reject) {
+            resolve({ statusCode: res.status, body: jsonObj });
+        })
 }
 

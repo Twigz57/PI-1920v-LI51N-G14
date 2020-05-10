@@ -4,48 +4,33 @@
      *  and sends responses to the client it uses the Router execute a specific command
 */
 
-console.log("hullo");
-const http = require('http');
+class Routers {
+  constructor() {
+    this.global = express.Router()
+    this.specific = express.Router()
+  }
+}
+
+const express = require('express')
 const cota_data = require('./dataAccess/movies-database-data.js').JSONData;
 const db_connection = require('./dataAccess/cota-db.js').DBAaccess;
 const services = require('./cota-services.js')(cota_data,db_connection);
-const Router = require('./api/cota-web-api.js')(services);
+const routes = require('./api/cota-web-api.js')(services, new Routers());
 
-http://localhost:3000
-Router.addRoutes();
+const PORT = 3000;
+const HOST = "localhost"
 
-const server = http.createServer((request, response) => {
-  var params = setParams(request.url);
-  var url = request.url.split('?');
-  var cmd = Router.checkRoutes(request.method, url[0]);
-  var ids = url[0].match(/\d+/g);      //get all ids
-  //console.log(cmd);a
-  if (cmd != null) {
-    Router.execute(ids, cmd, params, function (obj) {
-      response.statusCode = obj.statusCode;
-      response.setHeader('Content-Type', 'application/json');
-      response.write(JSON.stringify(obj.body));
-      response.end();
-    });
+var app = express()
+//rsvar routes = require('./api/yama-web-api.js')()
 
-  } else {
-    response.statusCode = 404;
-    response.setHeader('Content-Type', 'application/json');
-    response.write(JSON.stringify("404 PAGE NOT FOUND"));
-    response.end();
+app.use(express.json())
+app.use('/', routes.specific)
+
+app.listen(PORT, HOST, onListen)
+
+function onListen(err) {
+  if (err) {
+    console.log(err)
   }
-}).listen(3000);
-
-var setParams = function (url) {
-  var params = [];
-  var arr = url.split('?');
-  if (arr[1] === undefined) return;
-  var arr = arr[1].split('&');
-  for (var value of arr) {
-    value = value.split('=');
-     //to replace the &20 with 'SPACE'
-    params[(value[0])] = value[1].replace(/%20/g, " "); 
-  }
-  var toRet = Object.assign({}, params);
-  return toRet;
+  console.log(`Server listening on port ${PORT}. Entry point is http://${HOST}:${PORT}/`)
 }

@@ -1,115 +1,112 @@
 'use strict'
 let services
 
-module.exports = function (serv) {
-    services=serv;
-    return module.exports
-}
-/**
-    * @module cota-web-api - This module contains the Router of the paths used in a RESTfull api
-    * @var {Router}  - The Router object with the array of routes and methods to add and check routes.
-   */
+module.exports = function (serv, router) {
+    services = serv;
+    let { global, specific } = router;
+    specific.get('/tvshows/', getTvShows)
+    specific.get('/tvshow/', getTvShow)
+    specific.post('/groups/', postGroup)
+    specific.put('/groups/:gid/', putGroups)
+    specific.get('/groups/', getGroups)
+    specific.get('/group/:gid/', getGroupsByID)
+    specific.post('/groups/:gid/tvshow/', postTvShowsInGroup)
+    specific.delete('/groups/:gid/tvshow/:id/', deleteTvShowsByID)
+    specific.get('/groups/:gid/tvshows/', getGroupsTvShows)
 
-module.exports.Router;
-var Router = {
-    routes: [],
-    mode: null,
-    root: '/',
-    add: function (path, func) {
-        if (typeof path == 'function') {
-            func = path;
-            path = '';
-        }
-        this.routes.push({ path: path, func: func });
-        return this;
-    },
-    remove: function (param) {
-        for (var i = 0, r; i < this.routes.length, r = this.routes[i]; i++) {
-            if (r.handler === param || r.path.toString() === param.toString()) {
-                this.routes.splice(i, 1);
-                return this;
-            }
-        }
-        return this;
-    },
-    checkRoute: function (param) {
-        param = param.replace(/\d+/g, "(.*)");
-        for (var i = 0, r; i < this.routes.length, r = this.routes[i]; i++) {
-            r.path = r.path.toString().replace(/\/$/, '').replace(/^\//, '');
-            if (r.handler === param || r.path.toString() === param.toString()) {
-                return this.routes[i];
-            }
-        }
-        return null;
+    return router
+
+    async function getTvShows(req, res) {
+        await services.getTvShows(req.query)
+            .then((output) => {
+                res.send(output);
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+    async function getTvShow(req, res) {
+        await services.getTvShow(req.query)
+            .then((output) => {
+                res.send(output);
+            })
+            .catch((err) => {
+                res.status(err.statusCode)
+                res.send(err.body)
+            });
+    }
+    async function getGroups(req, res) {
+        await services.getGroups(req.query)
+            .then((output) => {
+                res.send(output);
+            })
+            .catch((err) => {
+                res.status(err.statusCode)
+                res.send(err.body)
+            });
+    }
+
+    async function getGroupsByID(req, res) {
+        await services.getGroupsByID(req.params.gid)
+            .then((output) => {
+                res.send(output);
+            })
+            .catch((err) => {
+                res.status(err.statusCode)
+                res.send(err.body)
+            });
+    }
+
+    async function putGroups(req, res) {
+        await services.putGroups(req.params.gid, req.query)
+            .then((output) => {
+                res.send(output);
+            })
+            .catch((err) => {
+                res.status(err.statusCode)
+                res.send(err.body)
+            });
+    }
+
+    async function postGroup(req, res) {
+        await services.postGroup(req.query)
+            .then((output) => {
+                res.send(output);
+            })
+            .catch((err) => {
+                res.status(err.statusCode)
+                res.send(err.body)
+            });
+    }
+    async function postTvShowsInGroup(req, res) {
+        await services.postTvShowsInGroup(req.query)
+            .then((output) => {
+                res.send(output);
+            })
+            .catch((err) => {
+                res.status(err.statusCode)
+                res.send(err.body)
+            });
+    }
+
+    async function deleteTvShowsByID(req, res) {
+        await services.deleteTvShowsByID(req.params.id)
+            .then((output) => {
+                res.send(output);
+            })
+            .catch((err) => {
+                res.status(err.statusCode)
+                res.send(err.body)
+            });
+    }
+    async function getGroupsTvShows(req, res) {
+        await services.getGroupsTvShows(req.params.gid)
+            .then((output) => {
+                res.send(output);
+            })
+            .catch((err) => {
+                res.status(err.statusCode)
+                res.send(err.body)
+            });
     }
 }
-
-/**
-    * @method addRoutes - this method adds the Routes to the Router 
-    * and adds the funcions associated with each command
-    * and each callback.
-    */
-module.exports.addRoutes = function () {
-    Router
-        .add('/GET/tvshows/', function (ids, params, callback) {
-            //return callback({"statusCode": 200, "body": "test"});
-            services.getTvShows(params, callback)
-        })
-        .add('/GET/tvshow/', function (ids, params, callback) {
-            //return callback({"statusCode": 200, "body": "test1"});
-            services.getTvShow(params, callback);
-        })
-        .add('/POST/groups/', function (ids, params, callback) {
-            //return callback({"statusCode": 200, "body": "test3"});
-            services.postGroup(params, callback)
-        })
-        .add('/PUT/groups/(.*)/', function (ids, params, callback) {
-            //return callback({"statusCode": 200, "body": "test4"});
-            services.putGroups(ids, params, callback);
-        })
-        .add('/GET/groups/', function (ids, params, callback) {
-            //return callback({"statusCode": 200, "body": "test5"});
-            services.getGroups(params, callback)
-        })
-        .add('/GET/group/(.*)/', function (ids, params, callback) {
-            //return callback({"statusCode": 200, "body": "test6"});
-            services.getGroupByID(ids, callback)
-        })
-        .add('/POST/groups/(.*)/tvshow/', function (ids, params, callback) {
-            //return callback({"statusCode": 200, "body": "test8"});
-            services.postTvShowsInGroup(ids, params, callback)
-        })
-        .add('/DELETE/groups/(.*)/tvshow/(.*)/', function (ids, params, callback) {
-            //return callback({ "statusCode": 200, "body": "test9" });
-            services.deleteTvShowsByID(ids, callback)
-        })
-        .add('/GET/groups/(.*)/tvshows/', function (ids, params, callback) {
-            //return callback({ "statusCode": 200, "body": "test9" });
-            services.getGroupsTvShows(ids,params, callback)
-        });
-}
-
-
-/**
-    * @method checkRoutes - aux function that connects server with router .
-    */
-module.exports.checkRoutes = function (method, path) {
-    return Router.checkRoute(method + path);
-}
-
-
-/**
-    * @method checkRoutes - aux function to call the execute() of the commands.
-    */
-module.exports.execute = function (ids, cmd, params, callback) {
-    return cmd.func(ids, params, callback);
-}
-
-/**
-    * @method checkRoutes - aux function to add a single route.
-    */
-module.exports.addSingleRoute = function (path, fun) {
-    Router.add(path, fun);
-}
-
-
