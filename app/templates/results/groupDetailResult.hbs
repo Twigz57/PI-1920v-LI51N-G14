@@ -1,0 +1,20 @@
+<h1>{{this.key}}</h1>
+{{#each this.body}}
+<hr>
+<div class="card border-primary mb-3">
+  <div class="card-header">
+   Name: {{name}}
+  </div>
+  <div class="card-body">
+     <p class="card-title">id - {{id}}</p>
+    <p class="card-title">description - {{description}}</p>
+    <h5>Games on Group:</h5>
+   {{#each this.games}}
+      <p class="card-title">Name: {{Game}}</p>
+      <p class="card-title">Id:{{id}}</p>
+      <p class="card-title">Description:{{Description}}</p>
+      <p class="card-title">Time Max:{{Time_Max}}</p>
+     {{/each}}
+  </div>
+</div>
+{{/each}}

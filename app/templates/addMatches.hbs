@@ -1,0 +1,24 @@
+<div>
+<h3> Add Matches to: <label id="titleName"{{this.name}}></label></h3>
+<hr>
+<p></p>
+<form>
+  <div class="form-group">
+    <label for="dateFrom">Date From :</label>
+    <input type="text"  class="form-control" id="dateFrom" aria-describedby="inputHelp" placeholder="YYYY-MM-DD">
+    <small id="teamHelp" class="form-text text-muted">Choose a Date from witch to search (YYYY-MM-DD)</small>
+    <label for="dateTo">Date To :</label>
+    <input type="text"  class="form-control" id="dateTo" aria-describedby="inputHelp" placeholder="YYYY-MM-DD">
+    <small id="teamHelp" class="form-text text-muted">Choose a Date from witch to search (YYYY-MM-DD)</small>
+  </div>
+    <div class="col-sm-10">
+      <button id="search" type="button" class="btn btn-primary">Search!</button>
+      <a class="btn btn-primary" href="#groupsDetail"role="button">Return to Group</a>
+    </div>
+</form>
+<hr>
+<p></p>
+
+<div id="results"></div>
+
+</div>
