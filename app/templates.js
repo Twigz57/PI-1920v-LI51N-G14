@@ -1,13 +1,13 @@
 const Handlebars = require('handlebars/dist/handlebars.min.js')
 //console.log(Handlebars)
 const nop = function () { }
-const gameSearchScript = require('./gameSearch');
-const popGamesSearchScript = require('./popGamesSearch');
-const gamesSearchScript = require('./gamesSearch');
+const tvshowSearchScript = require('./tvshowSearch');
+const poptvshowsSearchScript = require('./poptvshowsSearch');
+const tvshowsSearchScript = require('./tvshowsSearch');
 const groupDetailScript = require('./groupDetail');
 const groupsSearchScript = require('./groupsSearch');
 const editGroupScript = require('./editGroup');
-const add_delGamesScript = require('./add_delGames');
+const add_deltvshowsScript = require('./add_deltvshows');
 const createGroupScript = require('./createGroup');
 //const deleteGroupScript = require('./deleteGroup');
 const loginScript = require('./login');
@@ -19,22 +19,22 @@ const noView = function () {
 
 const compiledTemplates = {
   welcome:Handlebars.compile(require('./templates/welcome.hbs')),//(require('./templates/welcome.hbs'))),
-  gameSearch: Handlebars.compile(require('./templates/gameSearch.hbs')), 
-  popGamesResults: Handlebars.compile(require('./templates/results/popGamesResults.hbs')),
-  gameResults: Handlebars.compile(require('./templates/results/gameResults.hbs')),
+  tvshowSearch: Handlebars.compile(require('./templates/tvshowSearch.hbs')), 
+  poptvshowsResults: Handlebars.compile(require('./templates/results/poptvshowsResults.hbs')),
+  tvshowResults: Handlebars.compile(require('./templates/results/tvshowResults.hbs')),
   groupDetail: Handlebars.compile(require('./templates/groupDetail.hbs')), 
   groupsSearch: Handlebars.compile(require('./templates/groupsSearch.hbs')), 
-  popGamesSearchScript: Handlebars.compile(require('./templates/popGamesSearch.hbs')),
+  poptvshowsSearchScript: Handlebars.compile(require('./templates/poptvshowsSearch.hbs')),
   editGroup: Handlebars.compile(require('./templates/editGroup.hbs')),
   createGroup: Handlebars.compile(require('./templates/createGroup.hbs')),
   login: Handlebars.compile(require('./templates/login.hbs')),
   signup: Handlebars.compile(require('./templates/signup.hbs')),
   groupDetailResult: Handlebars.compile(require('./templates/results/groupDetailResult.hbs')),
   groupsSearchResult: Handlebars.compile(require('./templates/results/groupsSearchResult.hbs')),
-  add_delGames: Handlebars.compile(require('./templates/add_delGames.hbs')),
+  add_deltvshows: Handlebars.compile(require('./templates/add_deltvshows.hbs')),
 
-  gamesSearch: Handlebars.compile(require('./templates/gamesSearch.hbs')), 
-  gamesResults: Handlebars.compile(require('./templates/results/gamesResults.hbs')),
+  tvshowsSearch: Handlebars.compile(require('./templates/tvshowsSearch.hbs')), 
+  tvshowsResults: Handlebars.compile(require('./templates/results/tvshowsResults.hbs')),
   
   utils: Handlebars.compile(require('./templates/results/utils.hbs')),
 }
@@ -44,13 +44,13 @@ module.exports = {
     view: compiledTemplates.welcome,
     script: nop
   },
-  gameSearch: {
-    view: compiledTemplates.gameSearch,
-    script: () => gameSearchScript(compiledTemplates.gameResults)
+  tvshowSearch: {
+    view: compiledTemplates.tvshowSearch,
+    script: () => tvshowSearchScript(compiledTemplates.tvshowResults)
   },
-  gamesSearch: {
-    view: compiledTemplates.gamesSearch,
-    script: () => gamesSearchScript(compiledTemplates.gamesResults)
+  tvshowsSearch: {
+    view: compiledTemplates.tvshowsSearch,
+    script: () => tvshowsSearchScript(compiledTemplates.tvshowsResults)
   },
   groupDetail: {
     view: compiledTemplates.groupDetail,
@@ -73,16 +73,16 @@ module.exports = {
     script: () => signupScript()
   },
 
-  add_delGames: {
-    view: compiledTemplates.add_delGames,
-    script: () => add_delGamesScript()
+  add_deltvshows: {
+    view: compiledTemplates.add_deltvshows,
+    script: () => add_deltvshowsScript()
   },
   createGroup: {
     view: compiledTemplates.createGroup,
     script: () => createGroupScript()
   },
-  popGamesSearch: {
-    view: compiledTemplates.popGamesSearchScript,
-    script: () => popGamesSearchScript(compiledTemplates.popGamesResults, compiledTemplates.utils)
+  poptvshowsSearch: {
+    view: compiledTemplates.poptvshowsSearchScript,
+    script: () => poptvshowsSearchScript(compiledTemplates.poptvshowsResults, compiledTemplates.utils)
   }
 }

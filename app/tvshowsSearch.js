@@ -13,7 +13,7 @@ module.exports = function (tasksResults) {
 
   
   function ajaxSeach() {
-    const url = `http://localhost:3000/groups/${group_id.value}/games?max=${max.value}&min=${min.value}`
+    const url = `http://localhost:3000/groups/${group_id.value}/tvshows?max=${max.value}&min=${min.value}`
     fetch(url)
       .then(processResponse)
       .then(showTaskResultsView)

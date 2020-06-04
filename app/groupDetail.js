@@ -24,12 +24,12 @@ module.exports = function (tasksResults) {
     //console.log(body)
     let key = Object.keys(body)[0];
     body = body[key];
-    //console.log(body[0].games[0])
-    let games = body[0].games[0]
+    //console.log(body[0].tvshows[0])
+    let tvshows = body[0].tvshows[0]
     localStorage.setItem("group_name",body[0].name)
     localStorage.setItem("group_id",body[0].id)
     localStorage.setItem("group_description",body[0].description)
-    results.innerHTML = tasksResults({body:body,key:key,games:games})
+    results.innerHTML = tasksResults({body:body,key:key,tvshows:tvshows})
   }
 
 

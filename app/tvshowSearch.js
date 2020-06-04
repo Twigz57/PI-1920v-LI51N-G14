@@ -16,7 +16,7 @@ module.exports = function (tasksResults) {
   }
 
   function ajaxSeach() {
-    const url = `http://localhost:3000/game?name=${id.value}`
+    const url = `http://localhost:3000/tvshow?query=${id.value}`
     console.log(url);
     fetch(url)
       .then(processResponse)
@@ -39,7 +39,7 @@ module.exports = function (tasksResults) {
     body = body[key];
     results.innerHTML = tasksResults({body:body,key:key})
 
-    document.querySelectorAll('#results .card').forEach(handleClick)
+    document.querySelectorAll('#results.card').forEach(handleClick)
     function handleClick(card, idx) {
       card.onclick = function () {
         console.log("HEREEE")

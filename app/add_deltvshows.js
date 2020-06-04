@@ -1,7 +1,7 @@
 module.exports = function () {
 
   const results = document.getElementById("results")
-  const inputGame = document.getElementById("inputGame")
+  const inputtvshow = document.getElementById("inputtvshow")
 
 
   const add = document.getElementById("add")
@@ -35,7 +35,7 @@ module.exports = function () {
   
   function ajaxSeachAdd() {
     //}/playlists/6/track?artist=Mac Demarco&track=Nobody
-    const url = `http://localhost:3000/groups/${group_id}/game?name=${inputGame.value}`
+    const url = `http://localhost:3000/groups/${group_id}/tvshow?query=${inputtvshow.value}`
     let option= { method: 'POST', headers: { 'Content-Type': 'application/json' }}
     fetch(url,option)
       .then(processResponse)
@@ -45,7 +45,7 @@ module.exports = function () {
 
   function ajaxSeachDel() {
     //playlists/4/track/2
-    const url = `http://localhost:3000/groups/${group_id}/game/${inputGame.value}`
+    const url = `http://localhost:3000/groups/${group_id}/tvshow/${inputtvshow.value}`
     let option= { method: 'DELETE', headers: { 'Content-Type': 'application/json' }}
     fetch(url,option)
       .then(processResponse)
@@ -63,7 +63,7 @@ module.exports = function () {
 
   function showResultsView(body) {
     console.log(body);
-    results.innerHTML = "This Game was successfully updated in this group!";
+    results.innerHTML = "This tvshow was successfully updated in this group!";
     setTimeout(redirect, 1000);
     
   }
@@ -83,7 +83,7 @@ module.exports = function () {
 
   function showSearchError(e) {
     console.log("####" + e)
-    results.innerHTML = "Game already exists. Try other...";
+    results.innerHTML = "tvshow already exists. Try other...";
 
   }
 }

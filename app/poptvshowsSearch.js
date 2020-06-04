@@ -27,18 +27,17 @@ module.exports = function (tasksResults,utils) {
   }
 
   function showTaskResultsView(body) {
-   // console.log(body.Artists)
-      results.innerHTML = tasksResults(body.TV_Shows)
+      results.innerHTML = tasksResults(body['TV Shows'])
       
       // Register on the click event for each card result to show the task details
     // Register on the click event for each card result to show the task details
-    document.querySelectorAll('#results .card').forEach(handleClick)
+    document.querySelectorAll('#results.card').forEach(handleClick)
     function handleClick(card, idx) {
       card.onclick = function () {
-        console.log(body)
-           const id = `${body.TV_Shows[idx].Name}`
+        
+           const id = `${body['TV Shows'][idx].Name}`
            localStorage.setItem("tid",id)
-            window.location.hash = "#albumSearch"//`#leagues/${tasks.body.leagues[idx].leagueID}/teams`
+            window.location.hash = "#tvshowSearch"//`#leagues/${tasks.body.leagues[idx].leagueID}/teams`
       }
     }
   }
