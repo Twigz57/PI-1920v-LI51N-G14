@@ -1,5 +1,5 @@
-const Handlebars = require('../node_modules/handlebars/dist/handlebars')
-
+const Handlebars = require('handlebars/dist/handlebars.min.js')
+//console.log(Handlebars)
 const nop = function () { }
 const gameSearchScript = require('./gameSearch');
 const popGamesSearchScript = require('./popGamesSearch');
@@ -18,7 +18,7 @@ const noView = function () {
 
 
 const compiledTemplates = {
-  welcome: Handlebars.compile(require('./templates/welcome.hbs')),
+  welcome:Handlebars.compile(require('./templates/welcome.hbs')),//(require('./templates/welcome.hbs'))),
   gameSearch: Handlebars.compile(require('./templates/gameSearch.hbs')), 
   popGamesResults: Handlebars.compile(require('./templates/results/popGamesResults.hbs')),
   gameResults: Handlebars.compile(require('./templates/results/gameResults.hbs')),

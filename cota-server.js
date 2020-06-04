@@ -11,7 +11,7 @@ class Routers {
   }
 }
 var auth_service = require('./auth-service');
-
+var path = require('path')
 const express = require('express')
 const cota_data = require('./dataAccess/movies-database-data.js').JSONData;
 const db_connection = require('./dataAccess/cota-db.js').DBAaccess;
@@ -29,7 +29,7 @@ var app = express()
 //rsvar routes = require('./api/yama-web-api.js')()
 app.use(cookieParser())
 app.use(expressSession({secret: 'keyboard cat', resave: false, saveUninitialized: true }))
-//app.use('/', express.static(path.join(__dirname, "dist")))
+app.use('/', express.static(path.join(__dirname, "dist")))
 app.use(auth_routes.global)
 app.use(express.json())
 app.use('/', routes.specific)

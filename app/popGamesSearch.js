@@ -9,7 +9,7 @@ module.exports = function (tasksResults,utils) {
 
   function ajaxSeach() {
   
-    const url = `http://localhost:3000/games`;
+    const url = `http://localhost:3000/tvshows`;
 
      fetch(url)
       .then(processResponse)
@@ -28,15 +28,15 @@ module.exports = function (tasksResults,utils) {
 
   function showTaskResultsView(body) {
    // console.log(body.Artists)
-      results.innerHTML = tasksResults(body.Games)
+      results.innerHTML = tasksResults(body.TV_Shows)
       
       // Register on the click event for each card result to show the task details
     // Register on the click event for each card result to show the task details
     document.querySelectorAll('#results .card').forEach(handleClick)
     function handleClick(card, idx) {
       card.onclick = function () {
-        console.log("HEREEE")
-           const id = `${body.Artists[idx].id}`
+        console.log(body)
+           const id = `${body.TV_Shows[idx].Name}`
            localStorage.setItem("tid",id)
             window.location.hash = "#albumSearch"//`#leagues/${tasks.body.leagues[idx].leagueID}/teams`
       }
