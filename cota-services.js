@@ -210,7 +210,7 @@ module.exports.postTvShowsInGroup = async function (ids, params) {
         var toAdd = {
           TV_Show: t_body.results[0].name,
           Description: t_body.results[0].description,
-          //Time_Max:t_body.results[0].max_playtime,
+          id: nextID,
           score: t_body.results[0].vote_average,
           vote_cunt: t_body.results[0].vote_count,
         };
@@ -233,7 +233,7 @@ module.exports.postTvShowsInGroup = async function (ids, params) {
   });
 };
 
-module.exports.deleteTvShowsByID = async function (pid, tid) {
+module.exports.deleteTvShowsByID = async function (tid,pid) {
   return new Promise(async function (resolve, reject) {
     await db_connection
       .getGroupsByID(pid)
@@ -242,17 +242,16 @@ module.exports.deleteTvShowsByID = async function (pid, tid) {
           return reject({ statusCode: 404, body: "No group with this id" });
 
         var obj = body._source.TV_Shows.find(function (element) {
-          return element.id == ids[1];
+          return element.id == tid;
         });
         if (obj === undefined)
           return reject({ "statusCode": 404, "body": "No Tv Show with this id" });
-        body._source.TV_Shows = body._source.TV_Shows.filter(x => x.id != ids[1]);
+        body._source.TV_Shows = body._source.TV_Shows.filter(x => x.id != tid);
 
         var db_output = await db_connection.updateGroups(
           body._id,
           body._source
         );
-        console.log(db_output.body);
         return resolve(db_output.body);
       })
       .catch((err) => {

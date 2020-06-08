@@ -34,7 +34,6 @@ module.exports = function () {
   }
   
   function ajaxSeachAdd() {
-    //}/playlists/6/track?artist=Mac Demarco&track=Nobody
     const url = `http://localhost:3000/groups/${group_id}/tvshow?query=${inputtvshow.value}`
     let option= { method: 'POST', headers: { 'Content-Type': 'application/json' }}
     fetch(url,option)
@@ -44,7 +43,6 @@ module.exports = function () {
   }
 
   function ajaxSeachDel() {
-    //playlists/4/track/2
     const url = `http://localhost:3000/groups/${group_id}/tvshow/${inputtvshow.value}`
     let option= { method: 'DELETE', headers: { 'Content-Type': 'application/json' }}
     fetch(url,option)

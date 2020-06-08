@@ -1,6 +1,6 @@
 'use strict'
 /**
-     * @module foca-server - This module is the entry poit of the YAMA APP it takes the requests
+     * @module cota-server - This module is the entry poit of the YAMA APP it takes the requests
      *  and sends responses to the client it uses the Router execute a specific command
 */
 

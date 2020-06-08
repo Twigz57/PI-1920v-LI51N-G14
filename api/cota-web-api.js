@@ -90,7 +90,7 @@ module.exports = function (serv, router) {
     }
 
     async function deleteTvShowsByID(req, res) {
-        await services.deleteTvShowsByID(req.params.id)
+        await services.deleteTvShowsByID(req.params.id,req.params.gid)
             .then((output) => {
                 res.send(output);
             })
