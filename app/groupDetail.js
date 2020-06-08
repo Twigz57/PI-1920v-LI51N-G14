@@ -5,7 +5,7 @@ module.exports = function (tasksResults) {
   if (pid!=undefined) ajaxSeach(pid)
 
   function ajaxSeach(pid) {
-    const url = `http://localhost:3000/groups/${pid}`
+    const url = `http://localhost:3000/group/${pid}`
     fetch(url)
       .then(processResponse)
       .then(showTaskResultsView)
@@ -24,11 +24,12 @@ module.exports = function (tasksResults) {
     //console.log(body)
     let key = Object.keys(body)[0];
     body = body[key];
-    //console.log(body[0].tvshows[0])
+    console.log(body[0].tvshows[0])
     let tvshows = body[0].tvshows[0]
     localStorage.setItem("group_name",body[0].name)
     localStorage.setItem("group_id",body[0].id)
     localStorage.setItem("group_description",body[0].description)
+    localStorage.setItem("group_tvshows",body[0].tvshows)
     results.innerHTML = tasksResults({body:body,key:key,tvshows:tvshows})
   }
 

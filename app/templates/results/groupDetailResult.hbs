@@ -6,14 +6,12 @@
    Name: {{name}}
   </div>
   <div class="card-body">
-     <p class="card-title">id - {{id}}</p>
-    <p class="card-title">description - {{description}}</p>
+     <p class="card-title">id: {{id}}</p>
+    <p class="card-title">Description: {{description}}</p>
     <h5>Tv Shows on Group:</h5>
-   {{#each this.tvshows}}
+    {{#each this.tvshows}}
       <p class="card-title">Name: {{name}}</p>
-      <p class="card-title">Id:{{id}}</p>
-      <p class="card-title">Description:{{Description}}</p>
-      <p class="card-title">Time Max:{{Time_Max}}</p>
+      <p class="card-title">Average Score:{{id}}</p>
      {{/each}}
   </div>
 </div>
