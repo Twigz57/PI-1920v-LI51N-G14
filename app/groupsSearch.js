@@ -32,7 +32,7 @@ module.exports = function (tasksResults) {
       function handleClick(card, idx) {
         card.onclick = function () {
           const id = `${body[idx].id}`
-          //console.log("ff"+id);
+          console.log("ff"+id);
           localStorage.setItem("pid",id)
           window.location.hash = "#groupDetail"
         }

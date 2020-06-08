@@ -31,7 +31,7 @@ module.exports = function () {
   ///favorites/1?name=Group :1 New Name&description=this is a newest description
   
   function ajaxSeach() {
-    const url = `http://localhost:3000/group/${group_id}?`
+    const url = `http://localhost:3000/groups/${group_id}?`
     let params =`name=${inputName.value}&description=${inputDescription.value}`
     let option= { method: 'PUT', headers: { 'Content-Type': 'application/json' }}
     console.log(url+params)
