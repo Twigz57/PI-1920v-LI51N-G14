@@ -31,32 +31,32 @@ module.exports.createUser = async function(fullname, username, pass) {
 }
 
 
-  module.exports.getUser = async function(userId) {
+module.exports.getUser = async function(userId) {
+  return new Promise(async function(resolve, reject) {
+    await db_connection.getUserByID(userId)
+    .then(({statusCode:statusCode, body:body}) => {
+      resolve({_id: body._id, user: body._source.username});
+    })
+    .catch((err) => {
+      reject(err)
+    });  
+  })
+}
+
+
+module.exports.logput = async function(userId) {
+  {
     return new Promise(async function(resolve, reject) {
-      await db_connection.getUserByID(userId)
+      await db_connection.deleteUser(userId)
       .then(({statusCode:statusCode, body:body}) => {
-        resolve({_id: body._id, user: body._source.username});
+        resolve({_id: body._id, user: username});
       })
       .catch((err) => {
         reject(err)
       });  
     })
   }
-  
-
-  module.exports.logput = async function(userId) {
-    {
-      return new Promise(async function(resolve, reject) {
-        await db_connection.deleteUser(userId)
-        .then(({statusCode:statusCode, body:body}) => {
-          resolve({_id: body._id, user: username});
-        })
-        .catch((err) => {
-          reject(err)
-        });  
-      })
-    }
-  }
+}
 
 
 

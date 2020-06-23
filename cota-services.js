@@ -143,6 +143,7 @@ module.exports.postGroup = async function (params) {
           name: params.name,
           description: params.description,
           TV_Shows: [],
+          owner: params.isPublic 
         };
         var db_output = await db_connection.createGroup(nextID, toRet);
         return resolve(db_output.body);

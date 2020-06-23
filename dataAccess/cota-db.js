@@ -8,7 +8,8 @@ var URL = require('url').URL;
 
 module.exports.DBAaccess = {
     baseURL: "http://localhost:9200/cota",
-    createGroup: async function (id, body, callback) {
+    createGroup: async function (id, body) {
+        body.owner= body.owner ? "" : getCookie("user_cookie")
         body = JSON.stringify(body);
         const options = {
             method: 'POST',
@@ -61,6 +62,21 @@ module.exports.DBAaccess = {
 
     }
     
+}
+
+function getCookie(cname) { //user_name
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
 }
 
 async function requestAux(res) {

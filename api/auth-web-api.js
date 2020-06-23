@@ -30,7 +30,10 @@ module.exports = function ( authService, routers) {
             .then(user => {
                 req.login(user, (err) => {
                     if (err) next(err)
-                    else {resp.json(req.user)}
+                    else {
+                        resp.json(req.user)
+                        setCookie("user_cookie", req.body.username)
+                    }
                 })
             })
             .catch(err => next(err))
@@ -38,6 +41,7 @@ module.exports = function ( authService, routers) {
     function logout(req, resp, next) {
         req.logout()
         getSession(req, resp, next)
+        removeCookie("user_cookie")
     }
     function signup(req, resp, next) {
         authService
@@ -62,6 +66,33 @@ module.exports = function ( authService, routers) {
             .getUser(userId)
             .then(user => done(null, user))
             .catch(err => done(err))
+    }
+
+    function changeCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        var expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    function setCookie(cname, cvalue) {
+        changeCookie(cname, cvalue,1)
+    }
+    function removeCookie(cname) {
+        changeCookie(cname, "" ,-1)
+    }
+    function getCookie(cname) { //user_name
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
     }
 
 }
