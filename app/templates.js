@@ -12,6 +12,7 @@ const createGroupScript = require('./createGroup');
 //const deleteGroupScript = require('./deleteGroup');
 const loginScript = require('./login');
 const signupScript = require('./signup');
+const rankScript = require('./rank_show');
 const noView = function () { 
   return 'no view'
 }
@@ -35,7 +36,7 @@ const compiledTemplates = {
 
   tvshowsSearch: Handlebars.compile(require('./templates/tvshowsSearch.hbs')), 
   tvshowsResults: Handlebars.compile(require('./templates/results/tvshowsResults.hbs')),
-  
+  rank_show: Handlebars.compile(require('./templates/rank_show.hbs')),
   utils: Handlebars.compile(require('./templates/results/utils.hbs')),
 }
 
@@ -84,5 +85,10 @@ module.exports = {
   poptvshowsSearch: {
     view: compiledTemplates.poptvshowsSearchScript,
     script: () => poptvshowsSearchScript(compiledTemplates.poptvshowsResults, compiledTemplates.utils)
+  },
+  rank_show:{
+    view: compiledTemplates.rank_show,
+    script: nop //() => rankScript()
+
   }
 }
