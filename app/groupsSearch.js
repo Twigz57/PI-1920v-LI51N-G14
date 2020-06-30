@@ -5,7 +5,6 @@ module.exports = function (tasksResults) {
     
     ajaxSeach()
   
-  
     function ajaxSeach() {
     const url = `http://localhost:3000/groups`
       fetch(url)

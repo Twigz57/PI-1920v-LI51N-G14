@@ -13,9 +13,19 @@
     <input type="text"  class="form-control" id="inputDescription" placeholder="Enter new description">
     <small id="descriptionHelp" class="form-text text-muted">Choose a description for this group.</small>
   </div>
-    <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="inputIsPublic">Privacy</label>
     </div>
+    <select class="custom-select" id="inputIsPublic">
+      <option selected>Choose...</option>
+      <option value="1">Public</option>
+      <option value="2">Private</option>
+    </select>
+  </div>
+  <div class="col-sm-10">
+    <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+  </div>
 </form>
 <hr>
 <p></p>

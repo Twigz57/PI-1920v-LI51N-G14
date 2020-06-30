@@ -7,9 +7,12 @@ var URL = require('url').URL;
     */
 
 module.exports.DBAaccess = {
+
     baseURL: "http://localhost:9200/cota",
     createGroup: async function (id, body) {
-        body.owner= body.owner ? "" : getCookie("user_cookie")
+        console.log('\n'+"DBAaccess-body.owner"+'\n'+body.owner+'\n')
+        body.owner= body.owner == 2 ? getCookie("user_cookie") : ""
+        console.log('\n'+"DBAaccess-body.owner"+'\n'+body.owner+'\n')
         body = JSON.stringify(body);
         const options = {
             method: 'POST',
@@ -60,9 +63,14 @@ module.exports.DBAaccess = {
         return fetch(url,options)
         .then(requestAux)
 
+    },
+    getCookie: function(cname) { //user_name
+        return getCookie(cname);
     }
     
 }
+
+//window.addEventListener('DOMContentLoaded', yourFunction, false);
 
 function getCookie(cname) { //user_name
     var name = cname + "=";
@@ -77,6 +85,7 @@ function getCookie(cname) { //user_name
       }
     }
     return "";
+    //return localStorage.getItem("user_name")
 }
 
 async function requestAux(res) {

@@ -8,6 +8,7 @@ module.exports.authenticate = async function(username, pass) {
       for(var usr of body.hits.hits) {
         if(usr._source.username==username && usr._source.password==pass ){
           resolve({_id: usr._id, user: usr._source.username});
+          setCookie("user_cookie",usr._source.username)
         }
       }
       return reject({statusCode:400,body: "No login"});
@@ -58,5 +59,21 @@ module.exports.logput = async function(userId) {
   }
 }
 
+//window.addEventListener('DOMContentLoaded', yourFunction, false);
 
+function changeCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+function setCookie(cname, cvalue) {
+  changeCookie(cname, cvalue,1)
+  console.log("Cookie "+cname+" has value "+cvalue)
+  //localStorage.setItem("user_name",cvalue)
+}
+function removeCookie(cname) {
+  changeCookie(cname, "" ,-1)
+  //localStorage.setItem("user_name","")
+}
 

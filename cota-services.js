@@ -78,6 +78,8 @@ module.exports.getGroups = async function () {
         var toRet = {};
         var key = "Groups: ";
         toRet[key] = [];
+        var user = db_connection.getCookie("user_cookie")
+        //console.log(body.hits.hits)
         for (var item of body.hits.hits) {
           let aux = item._source;
           aux = {
@@ -86,7 +88,8 @@ module.exports.getGroups = async function () {
             id: aux.id,
             TV_Shows: aux.TV_Shows,
           };
-          toRet[key].push(aux);
+          if(user==aux.owner || aux.owner=="") 
+            toRet[key].push(aux);
         }
         resolve(toRet);
       })
@@ -138,12 +141,13 @@ module.exports.postGroup = async function (params) {
         }
         nextID++;
         var toRet = {};
+        console.log('\n'+"postGroup-params.owner"+'\n'+params.owner+'\n')
         var toRet = {
           id: nextID,
           name: params.name,
           description: params.description,
           TV_Shows: [],
-          owner: params.isPublic 
+          owner: params.owner 
         };
         var db_output = await db_connection.createGroup(nextID, toRet);
         return resolve(db_output.body);
@@ -298,3 +302,4 @@ module.exports.getGroupsTvShows = async function (ids, params) {
       });
   });
 };
+

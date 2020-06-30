@@ -42,7 +42,6 @@ module.exports = function () {
   }
 
   function showResultsView(body) {
-    console.log(body);
     results.innerHTML = "You are Logged In!";
     setTimeout(redirect, 1000);
     

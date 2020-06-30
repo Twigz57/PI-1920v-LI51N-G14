@@ -30,6 +30,7 @@ module.exports = function (tasksResults) {
     //console.log(body.TV_Shows[0].TV_Shows)
     //console.log(body.TV_Shows[0].id)
     //let tvshows = body[0].tvshows[0]
+    localStorage.setItem("group_privacy",body[0].owner==null ? "Public" :"Private")
     localStorage.setItem("group_name",body[0].name)
     localStorage.setItem("group_id",body[0].id)
     localStorage.setItem("group_description",body[0].description)

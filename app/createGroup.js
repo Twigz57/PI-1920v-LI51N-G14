@@ -3,7 +3,7 @@ module.exports = function () {
   const results = document.getElementById("results")
   const titleName = document.getElementById("titleName")
   const inputName = document.getElementById("inputName")
-  const inputIsPublic = document.getElementById("inputIsPublic")
+  var inputIsPublic = document.getElementById("inputIsPublic")
   const submit = document.getElementById("submit")
   const inputDescription = document.getElementById("inputDescription")
   
@@ -27,7 +27,8 @@ module.exports = function () {
   ///favorites?name=Group 4&description=Group 4 test
   function ajaxSeach() {
     const url = `http://localhost:3000/groups?`
-    let params =`name=${inputName.value}&description=${inputDescription.value}&isPublic=${inputIsPublic.value}`
+    if(inputIsPublic==null) inputIsPublic=""
+    let params =`name=${inputName.value}&description=${inputDescription.value}&owner=${inputIsPublic.value}`
     let option= { method: 'POST', headers: { 'Content-Type': 'application/json' }}
     fetch(url+params,option)
       .then(processResponse)
@@ -56,8 +57,6 @@ module.exports = function () {
   function redirect() {
     window.location.hash = "#welcome"
   }
-
-  
 
   function showSearchError(e) {
     console.log("####" + e)
