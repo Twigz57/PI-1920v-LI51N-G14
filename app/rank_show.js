@@ -52,7 +52,7 @@ module.exports = function () {
   
     function showResultsView(body) {
       console.log(body);
-      results.innerHTML = "This group was successfully updated!";
+      results.innerHTML = "This rating  was successfully updated!";
       setTimeout(redirect, 1000);
       
     }
@@ -64,10 +64,6 @@ module.exports = function () {
   
     function showView() {
       console.log("IM HERE!")
-     // console.log(group_name);
-      //titleName.innerHTML = group_name;
-      //inputName.setAttribute("placeholder",group_name)
-      //inputDescription.setAttribute("placeholder",group_description)
     }
   
     
