@@ -168,7 +168,8 @@ module.exports.putGroups = async function (ids, params) {
         body._source.name = params.name || body._source.name;
         body._source.description =
           params.description || body._source.description;
-
+        console.log(body)
+        console.log(body.source)
         var db_output = await db_connection.updateGroups(
           body._id,
           body._source
@@ -181,6 +182,39 @@ module.exports.putGroups = async function (ids, params) {
       });
   });
 };
+
+module.exports.putRating = async function (ids, params) {
+  console.log("1")
+  return new Promise(async function (resolve, reject) {
+    //gets the pl. by id
+    await db_connection
+      .getGroupsByID(ids.gid)
+      .then(async function ({ statusCode: statusCode, body: body }) {
+        //console.log(body)
+        if (statusCode === 404) {
+          return reject({ statusCode: 404, body: "No group with this id" });
+        }
+
+        //change the name and description if available
+        body._source.name = params.rating || "";
+        body._source.description =
+          params.description || body._source.description;
+       // console.log(body)
+        //console.log(body.source)
+        var db_output = await db_connection.updateGroups(
+          body._id,
+          body._source
+        );
+        return resolve(db_output.body);
+      })
+      .catch((err) => {
+        console.log(err);
+        return reject({ statusCode: 500, body: "WebApiError" });
+      });
+  });
+};
+
+
 
 module.exports.postTvShowsInGroup = async function (ids, params) {
   return new Promise(async function (resolve, reject) {

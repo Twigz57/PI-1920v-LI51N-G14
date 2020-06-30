@@ -88,7 +88,7 @@ module.exports = {
   },
   rank_show:{
     view: compiledTemplates.rank_show,
-    script: nop //() => rankScript()
+    script: () => rankScript()
 
   }
 }

@@ -13,7 +13,7 @@ module.exports = function (serv, router) {
     specific.post('/groups/:gid/tvshow/', postTvShowsInGroup)
     specific.delete('/groups/:gid/tvshow/:id/', deleteTvShowsByID)
     specific.get('/groups/:gid/tvshows/', getGroupsTvShows)
-
+    specific.put('/groups/:gid/rank_show/', getRankShow)
     return router
 
     async function getTvShows(req, res) {
@@ -109,4 +109,17 @@ module.exports = function (serv, router) {
                 res.send(err.body)
             });
     }
-}
+
+    async function getRankShow(req, res) {
+        console.log( "!!!")
+        console.log(req.query)
+        await services.putRating(req.params, req.query)
+            .then((output) => {
+                res.send(output);
+            })
+            .catch((err) => {
+                res.status(err.statusCode)
+                res.send(err.body)
+            });
+    }
+}   
