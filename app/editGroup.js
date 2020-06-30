@@ -7,6 +7,7 @@ module.exports = function () {
   const inputDescription = document.getElementById("inputDescription")
 
   const group_name = localStorage.getItem("group_name")
+  const group_privacy = localStorage.getItem("group_privacy")
   const group_id = localStorage.getItem("group_id")
   const group_description = localStorage.getItem("group_description")
   

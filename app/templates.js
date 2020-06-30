@@ -36,6 +36,11 @@ const compiledTemplates = {
   tvshowsSearch: Handlebars.compile(require('./templates/tvshowsSearch.hbs')), 
   tvshowsResults: Handlebars.compile(require('./templates/results/tvshowsResults.hbs')),
   
+  registerHelper: Handlebars.registerHelper('isdefined', function (value) {
+    console.log("func 1")
+    return value !== undefined;
+  }),
+
   utils: Handlebars.compile(require('./templates/results/utils.hbs')),
 }
 
@@ -84,5 +89,5 @@ module.exports = {
   poptvshowsSearch: {
     view: compiledTemplates.poptvshowsSearchScript,
     script: () => poptvshowsSearchScript(compiledTemplates.poptvshowsResults, compiledTemplates.utils)
-  }
+  },
 }

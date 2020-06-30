@@ -3,7 +3,7 @@ module.exports = function () {
   const results = document.getElementById("results")
   const titleName = document.getElementById("titleName")
   const inputName = document.getElementById("inputName")
-  var inputIsPublic = document.getElementById("inputIsPublic")
+  const inputIsPublic = document.getElementById("inputIsPublic")
   const submit = document.getElementById("submit")
   const inputDescription = document.getElementById("inputDescription")
   
@@ -11,9 +11,6 @@ module.exports = function () {
   submit.onclick = submitClick;
 
   function submitClick(event) {
-    console.log("submitClick")
-    console.log(inputName.value)
-    console.log(inputDescription.value);
     if(inputName.value!=undefined && inputDescription.value!=undefined)
       ajaxSeach()
   }
@@ -27,8 +24,8 @@ module.exports = function () {
   ///favorites?name=Group 4&description=Group 4 test
   function ajaxSeach() {
     const url = `http://localhost:3000/groups?`
-    if(inputIsPublic==null) inputIsPublic=""
-    let params =`name=${inputName.value}&description=${inputDescription.value}&owner=${inputIsPublic.value}`
+    var owner= inputIsPublic.value==2 ? getCookie("user_cookie") : ""
+    let params =`name=${inputName.value}&description=${inputDescription.value}&owner=${owner}`
     let option= { method: 'POST', headers: { 'Content-Type': 'application/json' }}
     fetch(url+params,option)
       .then(processResponse)
@@ -45,7 +42,6 @@ module.exports = function () {
   }
 
   function showResultsView(body) {
-    console.log(body);
     results.innerHTML = "This Group was successfully created!";
     setTimeout(function(){
       results.innerHTML = "";
@@ -62,6 +58,21 @@ module.exports = function () {
     console.log("####" + e)
     results.innerHTML = "Search not available. Try again later...";
 
+  }
+
+  function getCookie(cname) { //user_name
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
   }
 }
 

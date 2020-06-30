@@ -25,8 +25,6 @@ module.exports = function (tasksResults) {
     //console.log(body)
     let key = Object.keys(body)[0];
     body = body[key];
-    console.log(body[0])
-    console.log(body[0].TV_Shows)
     //console.log(body.TV_Shows[0].TV_Shows)
     //console.log(body.TV_Shows[0].id)
     //let tvshows = body[0].tvshows[0]

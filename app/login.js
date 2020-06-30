@@ -44,7 +44,7 @@ module.exports = function () {
   function showResultsView(body) {
     results.innerHTML = "You are Logged In!";
     setTimeout(redirect, 1000);
-    
+    setCookie("user_cookie",body.user)
   }
 
   function redirect() {
@@ -55,7 +55,18 @@ module.exports = function () {
   function showSearchError(e) {
     console.log("####" + e)
     results.innerHTML = "Try again later...";
-
+  }
+  function changeCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+  function setCookie(cname, cvalue) {
+    changeCookie(cname, cvalue,1)
+  }
+  function removeCookie(cname) {
+    changeCookie(cname, "" ,-1)
   }
 }
 

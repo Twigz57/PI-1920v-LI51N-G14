@@ -69,6 +69,7 @@ module.exports = function (serv, router) {
     }
 
     async function postGroup(req, res) {
+        console.log(res)
         await services.postGroup(req.query)
             .then((output) => {
                 res.send(output);

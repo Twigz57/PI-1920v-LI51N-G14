@@ -6,8 +6,9 @@
    Name: {{name}}
   </div>
   <div class="card-body">
-     <p class="card-title">id: {{id}}</p>
+    <p class="card-title">Id: {{id}}</p>
     <p class="card-title">Description: {{description}}</p>
+    <p class="card-title">Privacy: {{#if (isdefined owner)}}Private{{else}}Public{{/if}}</p>
     <h5>Tv Shows on Group:</h5>
     {{#each this.TV_Shows}}
       <p class="card-title">Name: {{TV_Show}}</p>
