@@ -190,15 +190,23 @@ module.exports.putRating = async function (ids, params) {
     await db_connection
       .getGroupsByID(ids.gid)
       .then(async function ({ statusCode: statusCode, body: body }) {
-        //console.log(body)
+        console.log("AQUI")
+        //console.log(body._source.TV_Shows[0].TV_Show)
         if (statusCode === 404) {
           return reject({ statusCode: 404, body: "No group with this id" });
         }
-
+        
+        body._source.TV_Shows.forEach(element => {
+          if(element.TV_Show == params.nameTV)
+            element.rating = params.rating
+          console.log(element.TV_Show)
+       });
+       console.log(body._source.TV_Shows)
+        //console.log(params)
         //change the name and description if available
-        body._source.name = params.rating || "";
-        body._source.description =
-          params.description || body._source.description;
+        //body._source.name = params.rating || "";
+        //body._source.description =
+         // params.description || body._source.description;
        // console.log(body)
         //console.log(body.source)
         var db_output = await db_connection.updateGroups(
@@ -247,6 +255,7 @@ module.exports.postTvShowsInGroup = async function (ids, params) {
           id: nextID,
           score: t_body.results[0].vote_average,
           vote_cunt: t_body.results[0].vote_count,
+          rating:0
         };
 
         var index = g_body._source.TV_Shows.findIndex(

@@ -32,7 +32,7 @@ module.exports = function () {
     function ajaxSeach() {
         console.log("2")
       const url = `http://localhost:3000/groups/${group_id}/rank_show?`
-      let params =`rating=${inputRating.value}&name=${inputName.value}`
+      let params =`rating=${inputRating.value}&nameTV=${inputName.value}`
       let option= { method: 'PUT', headers: { 'Content-Type': 'application/json' }}
       console.log(url+params)
       fetch(url+params,option)
